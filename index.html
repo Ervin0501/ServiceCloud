@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cartelera de Cine</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    select {
+      padding: 10px;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    .cinema {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .movie {
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+
+    .movie h3 {
+      margin: 5px 0;
+    }
+
+    .movie p {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Cartelera de Cine por Ciudad</h1>
+
+  <label for="city">Selecciona tu ciudad:</label>
+  <select id="city" onchange="loadCinemaData()">
+    <option value="bogota">Bogotá</option>
+    <option value="medellin">Medellín</option>
+    <option value="cali">Cali</option>
+  </select>
+
+  <div id="cinema-container"></div>
+
+  <script>
+    const data = {
+      bogota: [
+        {
+          name: "Cineplanet Bogotá",
+          movies: [
+            { title: "Avengers: Endgame", time: "3:00 PM - 6:00 PM", price: "$15.000" },
+            { title: "Spider-Man: No Way Home", time: "1:00 PM - 4:00 PM", price: "$14.000" }
+          ]
+        },
+        {
+          name: "Cinemark Gran Estación",
+          movies: [
+            { title: "Oppenheimer", time: "2:30 PM - 5:30 PM", price: "$16.000" }
+          ]
+        }
+      ],
+      medellin: [
+        {
+          name: "Cine Colombia Medellín",
+          movies: [
+            { title: "Barbie", time: "12:00 PM - 3:00 PM", price: "$13.000" },
+            { title: "Mario Bros", time: "4:00 PM - 6:00 PM", price: "$14.000" }
+          ]
+        }
+      ],
+      cali: [
+        {
+          name: "Royal Films Cali",
+          movies: [
+            { title: "Dune 2", time: "2:00 PM - 5:00 PM", price: "$12.000" },
+            { title: "Kung Fu Panda 4", time: "11:00 AM - 1:00 PM", price: "$10.000" }
+          ]
+        }
+      ]
+    };
+
+    function loadCinemaData() {
+      const city = document.getElementById("city").value;
+      const cinemas = data[city];
+      const container = document.getElementById("cinema-container");
+      container.innerHTML = "";
+
+      cinemas.forEach(cinema => {
+        const cinemaDiv = document.createElement("div");
+        cinemaDiv.className = "cinema";
+
+        const title = document.createElement("h2");
+        title.textContent = cinema.name;
+        cinemaDiv.appendChild(title);
+
+        cinema.movies.forEach(movie => {
+          const movieDiv = document.createElement("div");
+          movieDiv.className = "movie";
+
+          movieDiv.innerHTML = `
+            <h3>${movie.title}</h3>
+            <p><strong>Horario:</strong> ${movie.time}</p>
+            <p><strong>Precio:</strong> ${movie.price}</p>
+          `;
+          cinemaDiv.appendChild(movieDiv);
+        });
+
+        container.appendChild(cinemaDiv);
+      });
+    }
+
+    // Carga Bogotá por defecto
+    window.onload = loadCinemaData;
+  </script>
+</body>
+</html>
